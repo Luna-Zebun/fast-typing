@@ -17,7 +17,7 @@ const Timer = ({start}) => {
 
     return (
     <div className="timer">
-        <h1>{time} sec</h1>
+        <h1> Time left : {time} sec</h1>
         {/* <button onClick={startTimer} >Start</button> */}
     </div>
     );
