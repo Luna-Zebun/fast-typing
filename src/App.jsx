@@ -12,54 +12,58 @@ import Timer from "./components/timer/timer.component";
     "Even broken wings can learn to fly again with hope.",
     "Hope reminds you that your story isn't finished yet.",]
   const getRandomQuotes= () => {
-  return quotes[Math.floor(Math.random() * quotes.length)];
-};
-
-
+    return quotes[Math.floor(Math.random() * quotes.length)];
+  };
 const App = () => {
   const [text, setText] = useState("");
   const [startTimer, setStartTimer] = useState(false);
-  const [status, setStatus] = useState(null); // null | correct | wrong
-
+  const [status, setStatus] = useState(null); 
   const [quote, setQuote] = useState(getRandomQuotes());
-    const handleClick = () => {
-    // shuffle array and pick random
+  const [counter, setCounter] = useState(0);
+
+  const handleClick = () => {
     const randomArr = getRandomQuotes();
-    setQuote(randomArr);
+      setQuote(randomArr);
       setText("");
       setStatus(null);
+      setStartTimer(false);
   };
 
+  const [isBackspace, setIsBackspace] = useState(false);
 
+  const handleKeyDown = (e) => {
+    setIsBackspace(e.key === "Backspace");
+  };
   const handleChange = (e) => {
     const value = e.target.value;
     setText(value);
-    if (!quote.startsWith(value)) {
+    if (!isBackspace && !quote.startsWith(value)) {
       setStatus("wrong");
+      setCounter(counter + 1);
     }
-
-    else if (value === quote) {
+    else if (value === quote) { 
       setStatus("correct");
     }
-
     else {
       setStatus(null);
     }
-
-    if (!startTimer && value.length > 0) {
+    if (value.length > 0 && !startTimer) {
       setStartTimer(true);
     }
-  };
+  }
 
 
     return (
       <div>
-        <div
+        
+        <Timer start={startTimer} onReset={() => setStartTimer(false) } setCounter={setCounter}  ></Timer>
+        <div className="App">
+                  <div
           style={{
-            width: "50px",
-            height: "50px",
-            borderRadius: "50%",
-            margin: "0% 0% -12% 91%",
+            width: "64px",
+            height: "34px",
+            borderRadius: "10%",
+            margin: "-8% 0% -9% 84%",
             backgroundColor:
               status === "correct"
                 ? "green"
@@ -69,15 +73,12 @@ const App = () => {
             transition: "0.3s"
           }}
         />
-        <Timer start={startTimer} ></Timer> 
-        <div className="App">
+          <h2>{counter} errors</h2>
           <h1>{quote}</h1>
-          <input type="text" className="form__input" id="name" placeholder="click here a letters"   value={text} onChange={handleChange} /> 
+          <input type="text" className="form__input" id="name" placeholder="click here a letters" onKeyDown={handleKeyDown }   value={text} onChange={handleChange} /> 
           <button className="Button" role="button" onClick={handleClick}>Generate</button>
+          
         </div>
-
-
-                
       </div>
     );
 }

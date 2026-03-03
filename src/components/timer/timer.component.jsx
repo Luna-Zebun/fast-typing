@@ -1,24 +1,37 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect , useRef } from "react";
 import './timer.style.scss'
 
-const Timer = ({start}) => {
-    const INITIAL_TIME = 60;
+const Timer = ({start , onReset , setCounter}) => {
+    const INITIAL_TIME =60;
     const [time, setTime] = useState(INITIAL_TIME);
+    const intervalRef = useRef(null);
     
-    useEffect(() =>{
-        if (!start) return;
 
-        const interval = setInterval(() => {
-            setTime((prev) => (prev > 0 ? prev - 1 : 0));
-        }, 1000);
-
-        return () => clearInterval(interval);
+    
+    useEffect(() => {
+        if (start) { 
+            clearInterval(intervalRef.current);
+            // setTime(INITIAL_TIME);
+            intervalRef.current = setInterval(() => { setTime((prev) => (prev > 0 ? prev - 1 : 0)); }, 1000);
+        }
+        else { 
+            clearInterval(intervalRef.current);
+        }
+        return () => clearInterval(intervalRef.current); 
     }, [start]);
+        const resetTime = () => {
+            clearInterval(intervalRef.current);
+            setTime(INITIAL_TIME);
+            onReset(); 
+            setCounter(0);
+            
+        
+        };
 
     return (
     <div className="timer">
         <h1> Time left : {time} sec</h1>
-        {/* <button onClick={startTimer} >Start</button> */}
+        <button className="Button" role="button" onClick={resetTime}>Reset</button>
     </div>
     );
 };
