@@ -20,14 +20,18 @@ const App = () => {
   const [quote, setQuote] = useState(getRandomQuotes());
   const [counter, setCounter] = useState(0);
 
-  const shootConfetti = () => {
-  confetti({
+const shootConfetti = () => {
+  const myConfetti = confetti.create(undefined, {
+    resize: true,
+    useWorker: true,
+  });
+
+  myConfetti({
     particleCount: 150,
     spread: 70,
     origin: { y: 0.6 },
   });
 };
-
 const handleClick = () => {
   const randomArr = getRandomQuotes();
     setQuote(randomArr);
