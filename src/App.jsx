@@ -1,6 +1,7 @@
 import {  useState } from "react";
 import "./components/TextBox/text-box.style.scss";
 import Timer from "./components/timer/timer.component";
+import confetti from "canvas-confetti";
 
 const quotes=[ 
   "Even the smallest light can guide you through the darkest night.",
@@ -18,6 +19,14 @@ const App = () => {
   const [status, setStatus] = useState(null); 
   const [quote, setQuote] = useState(getRandomQuotes());
   const [counter, setCounter] = useState(0);
+
+  const shootConfetti = () => {
+  confetti({
+    particleCount: 150,
+    spread: 70,
+    origin: { y: 0.6 },
+  });
+};
 
 const handleClick = () => {
   const randomArr = getRandomQuotes();
@@ -41,11 +50,12 @@ const handleChange = (e) => {
   }
   else if (value === quote) { 
     setStatus("correct");
+    shootConfetti();
   }
   else {
     setStatus(null);
   }
-  if (value.length > 0 && !startTimer) {
+  if (value.length > 0 ) {
     setStartTimer(true);
   }
 }
