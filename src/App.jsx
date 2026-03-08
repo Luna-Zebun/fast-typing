@@ -3,21 +3,13 @@ import "./components/TextBox/text-box.style.scss";
 import Timer from "./components/timer/timer.component";
 import confetti from "canvas-confetti";
 
-// const quotes=[ 
-//   "Even the smallest light can guide you through the darkest night.",
-//   "A single hopeful thought can change the direction of an entire day.",
-//   "Hope is believing that tomorrow can be better, even if today was hard.",
-//   "When you choose hope, you choose possibility.",
-//   "Even broken wings can learn to fly again with hope.",
-//   "Hope reminds you that your story isn't finished yet.",]
-
-
-const quotes=[
-  "luna bun",
-  "mohammed tt",
-  "hele llll"
-]
-
+const quotes=[ 
+  "Even the smallest light can guide you through the darkest night.",
+  "A single hopeful thought can change the direction of an entire day.",
+  "Hope is believing that tomorrow can be better, even if today was hard.",
+  "When you choose hope, you choose possibility.",
+  "Even broken wings can learn to fly again with hope.",
+  "Hope reminds you that your story isn't finished yet.",]
 
 const getRandomQuotes= () => {
   return quotes[Math.floor(Math.random() * quotes.length)];
