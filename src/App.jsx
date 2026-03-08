@@ -1,15 +1,24 @@
-import {  useState } from "react";
+import {  useState , useRef } from "react";
 import "./components/TextBox/text-box.style.scss";
 import Timer from "./components/timer/timer.component";
 import confetti from "canvas-confetti";
 
-const quotes=[ 
-  "Even the smallest light can guide you through the darkest night.",
-  "A single hopeful thought can change the direction of an entire day.",
-  "Hope is believing that tomorrow can be better, even if today was hard.",
-  "When you choose hope, you choose possibility.",
-  "Even broken wings can learn to fly again with hope.",
-  "Hope reminds you that your story isn't finished yet.",]
+// const quotes=[ 
+//   "Even the smallest light can guide you through the darkest night.",
+//   "A single hopeful thought can change the direction of an entire day.",
+//   "Hope is believing that tomorrow can be better, even if today was hard.",
+//   "When you choose hope, you choose possibility.",
+//   "Even broken wings can learn to fly again with hope.",
+//   "Hope reminds you that your story isn't finished yet.",]
+
+
+const quotes=[
+  "luna bun",
+  "mohammed tt",
+  "hele llll"
+]
+
+
 const getRandomQuotes= () => {
   return quotes[Math.floor(Math.random() * quotes.length)];
 };
@@ -19,6 +28,8 @@ const App = () => {
   const [status, setStatus] = useState(null); 
   const [quote, setQuote] = useState(getRandomQuotes());
   const [counter, setCounter] = useState(0);
+  const timerRef = useRef(null);
+
 
 const shootConfetti = () => {
   const myConfetti = confetti.create(undefined, {
@@ -37,8 +48,9 @@ const handleClick = () => {
     setQuote(randomArr);
     setText("");
     setStatus(null);
-    setStartTimer(false);
     setCounter(0);
+    setStartTimer(false);
+    timerRef.current.resetTime();
 };
 
 const [isBackspace, setIsBackspace] = useState(false);
@@ -55,6 +67,8 @@ const handleChange = (e) => {
   else if (value === quote) { 
     setStatus("correct");
     shootConfetti();
+    setStartTimer(false);
+    timerRef.current.stopTimer();
   }
   else {
     setStatus(null);
@@ -66,7 +80,7 @@ const handleChange = (e) => {
     return (
       <div>
         
-        <Timer start={startTimer} onReset={() => setStartTimer(false) } setCounter={setCounter} setText={setText} setStatus={setStatus}  ></Timer>
+        <Timer ref={timerRef} start={startTimer}  onReset={() => setStartTimer(false) } setCounter={setCounter} setText={setText} setStatus={setStatus} ></Timer>
         <div className="App">
                   <div
           style={{
@@ -85,8 +99,8 @@ const handleChange = (e) => {
         />
           <h2>{counter} errors</h2>
           <h1>{quote}</h1>
-          <input type="text" className="form__input" id="name" placeholder="click here a letters" onKeyDown={handleKeyDown } value={text} onChange={handleChange} /> 
-          <button className="Button" role="button" onClick={handleClick}>Generate</button>
+          <input type="text" className="form__input" id="name" placeholder="click here a letters" onKeyDown={handleKeyDown } value={text} onChange={handleChange} disabled={status === "correct"}  /> 
+          <button className="Button" role="button" onClick={handleClick} >Generate</button>
         </div>
       </div>
     );

@@ -1,7 +1,7 @@
-import { useState, useEffect , useRef } from "react";
+import { useState, useEffect , useRef, forwardRef, useImperativeHandle  } from "react";
 import './timer.style.scss'
 
-const Timer = ({start , onReset , setCounter , setText ,setStatus}) => {
+const Timer = forwardRef(({ start, onReset, setCounter, setText, setStatus }, ref) => {
     const INITIAL_TIME =60;
     const [time, setTime] = useState(INITIAL_TIME);
     const intervalRef = useRef(null);
@@ -15,7 +15,7 @@ const Timer = ({start , onReset , setCounter , setText ,setStatus}) => {
             clearInterval(intervalRef.current);
         }
         return () => clearInterval(intervalRef.current); 
-    }, [start]);
+    }, [start ]);
         const resetTime = () => {
             clearInterval(intervalRef.current);
             setTime(INITIAL_TIME);
@@ -24,6 +24,14 @@ const Timer = ({start , onReset , setCounter , setText ,setStatus}) => {
             setText("");
             setStatus(null);
         };
+        const stopTimer = () => {
+            clearInterval(intervalRef.current);
+        };
+        useImperativeHandle(ref, () => ({
+            resetTime,
+            stopTimer,
+        }));
+
 
     return (
     <div className="timer">
@@ -31,6 +39,6 @@ const Timer = ({start , onReset , setCounter , setText ,setStatus}) => {
         <button className="Button" role="button" onClick={resetTime}>Reset</button>
     </div>
     );
-};
+});
 
 export default Timer;
