@@ -30,6 +30,9 @@ const Timer = forwardRef(({ start, onReset, setCounter, setText, setStatus }, re
         useImperativeHandle(ref, () => ({
             resetTime,
             stopTimer,
+            getTime() {
+                return time;
+            }
         }));
 
 

@@ -21,6 +21,7 @@ const App = () => {
   const [quote, setQuote] = useState(getRandomQuotes());
   const [counter, setCounter] = useState(0);
   const timerRef = useRef(null);
+  const [speed, setSpeed] = useState(0);
 
 
 const shootConfetti = () => {
@@ -61,6 +62,11 @@ const handleChange = (e) => {
     shootConfetti();
     setStartTimer(false);
     timerRef.current.stopTimer();
+
+    const seconds = timerRef.current.getTime(); 
+    const characters = value.length;
+    const wpm = Math.round((characters / 5) * (60 / seconds));
+    setSpeed(wpm);
   }
   else {
     setStatus(null);
@@ -89,11 +95,19 @@ const handleChange = (e) => {
             transition: "0.3s"
           }}
         />
+
           <h2>{counter} errors</h2>
           <h1>{quote}</h1>
           <input type="text" className="form__input" id="name" placeholder="click here a letters" onKeyDown={handleKeyDown } value={text} onChange={handleChange} disabled={status === "correct"}  /> 
           <button className="Button" role="button" onClick={handleClick} >Generate</button>
+          <h3 style={{
+                fontSize: "1.5rem",
+                display: "inline-block",
+                "margin-left": "50%",
+                }}
+          >your speed {speed} wpm</h3>
         </div>
+        
       </div>
     );
 }
