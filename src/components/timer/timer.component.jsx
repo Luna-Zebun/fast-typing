@@ -1,7 +1,7 @@
 import { useState, useEffect , useRef, forwardRef, useImperativeHandle  } from "react";
 import './timer.style.scss'
 
-const Timer = forwardRef(({ start, onReset, setCounter, setText, setStatus }, ref) => {
+const Timer = forwardRef(({ start, onReset, setCounter, setText, setStatus, setSpeed }, ref) => {
     const INITIAL_TIME =60;
     const [time, setTime] = useState(INITIAL_TIME);
     const intervalRef = useRef(null);
@@ -23,6 +23,8 @@ const Timer = forwardRef(({ start, onReset, setCounter, setText, setStatus }, re
             setCounter(0);
             setText("");
             setStatus(null);
+            setSpeed(0)
+            
         };
         const stopTimer = () => {
             clearInterval(intervalRef.current);

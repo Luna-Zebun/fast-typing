@@ -44,6 +44,7 @@ const handleClick = () => {
     setCounter(0);
     setStartTimer(false);
     timerRef.current.resetTime();
+    setSpeed(0)
 };
 
 const [isBackspace, setIsBackspace] = useState(false);
@@ -67,6 +68,7 @@ const handleChange = (e) => {
     const characters = value.length;
     const wpm = Math.round((characters / 5) * (60 / seconds));
     setSpeed(wpm);
+
   }
   else {
     setStatus(null);
@@ -78,7 +80,7 @@ const handleChange = (e) => {
     return (
       <div>
         
-        <Timer ref={timerRef} start={startTimer}  onReset={() => setStartTimer(false) } setCounter={setCounter} setText={setText} setStatus={setStatus} ></Timer>
+        <Timer ref={timerRef} start={startTimer}  onReset={() => setStartTimer(false) } setCounter={setCounter} setText={setText} setStatus={setStatus} setSpeed={setSpeed} ></Timer>
         <div className="App">
                   <div
           style={{
@@ -103,9 +105,9 @@ const handleChange = (e) => {
           <h3 style={{
                 fontSize: "1.5rem",
                 display: "inline-block",
-                "margin-left": "50%",
+                "margin-left": "45%",
                 }}
-          >your speed {speed} wpm</h3>
+          >your speed is {speed} wpm</h3>
         </div>
         
       </div>
